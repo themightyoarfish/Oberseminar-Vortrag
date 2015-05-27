@@ -1,7 +1,7 @@
 Refotografie bezeichnet das Wiederfinden der Aufnahmepose einer Fotografie und
-das erneute Aufnhemen der selben Szene, um das Bild mögichst genau zu kopieren.
+das erneute Aufnehmen der selben Szene.
 Dies erlaubt die Visualisierung der zeitlichen Entwicklung einer Szene wie
-beispielsweise von historischen Gebäuden.
+beispielsweise von Gebäuden.
 
 Bisher existieren kaum Ansätze zur technischen Unterstützung, sodass die
 Fotografin meist händisch mit viel Geduld die Aufnahmepose rekonstruieren muss.

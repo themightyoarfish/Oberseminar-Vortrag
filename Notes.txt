@@ -1,8 +1,63 @@
+EINLEITUNG
+* Bachelorarbeit
+* Betreut von
+* Blabla
+* Refotografie - wasn das?
+   + Bezeichnet den Prozess der Rekonstruktion eines Aufnahmestandortes eines
+   Bildes
+   + Ziel ist es, die Pose und Kameraparameter möglichst genau zu
+   rekonstruieren, um erneut ein Bild der selben Szene zu machen
+   + Man kann damit gut historischen Wandel dokumentieren, aber auch potenziell
+   Baufortschritte oder Jahreszeiten
+   + Siehe Beispiele (erregen gelegentlich Medieninteresse aufgrund der starken
+   Wirkung)
+* Was genau müsste neben der Pose alles rekonstruiert werden?
+   // + Abbildung von Welt- in Pixelkoordinaten sieht so aus [GRAFIK ERLÄUTERN]
+   // + Die Kameramatrix enthält die Brennweite, den Hauptpunkt und einen
+   // Scherungsparameter (üblicherweise vernachläsigt)
+   // + Wenn wir annehmen, dass das Weltkoordinatensystem das des Referenzbildes
+   // ist, sind wir auf der Suche nach R & T, dann könnten wir uns da hin bewegen
+   + Refotografie bisher: Manuell, Timera, rePhoto, Photoshop
+   + Frage: Kann man sich nicht durch Computer dabei helfen lassen?
+   + Geht, Menschen vom MIT & Adobe haben eine Anwendung für Laptop +
+   Digitalkamera entwickelt, die den Prozess laut eigener Aussage ziemlich gut
+   erledigt (ist aber unhandlich, wegen Laptop, außerdem nicht verfügbar)
+   // + Deren Methode beinhaltet auch die Schätzung der Kalibriermatrix der
+   // historischen Kamera
+   // + Der User muss das historische Bild manuell registrieren in der aktuellen
+   // Szene
+   // + Rotation wird vor Präsentation des aktuellen Kamerabildes herausgerechnet
+
+ZIEL DER ARBEIT
+* Ziel dieser Arbeit: Ähnliche Funktionalität in prototypischer Weise auf das
+   Smartphone bringen
+   + Das heißt: Zunächst nur für Referenzbilder, die sich nicht sehr stark
+   unterscheiden
+   + Wir versuchen es mit automatischer Registrierung der Referenzaufnahme, also
+   kein manuelles labeln von Korrespondenzen
+   + Es gibt auch keine Schätzung der originalen Kalibriermatrix, wir nehmen
+   vereinfachend an, dass für das Referenzbild die selbe Kamera benutzt wurde
+   + Zunächst wird versucht, die richtige Translation zu erreichen
+   + Alles weitere kann dan hoffentlich durch Weiterentwicklung in der
+   Arbeitsgruppe nachgerüstet werden.
+
+VEREINFACHTER ABLAUF
+* Wie kann man also vorgehen? Es handelt sich hier um ein
+  Structure-from-motion-Szenario, also mit 2 Aufnahmen der selben Szene und
+  bewegung dazwischen,
+  wobei das Referenzbild die eine 'Kamera' ist und das aktuell von der Kamera
+  gelieferte Bild die zweite.
+* Die erste Idee, auf die man kommen könnte, sieht ca. so aus [GRAFIK ERLÄUTERN]
+   + Man findet irgednwie Korrespondenzen in Referenz und aktuellem Kamerabild
+   und findet so heraus, wie die Posedifferenz ist (wie das geht, sag ich gleich)
+   + Dann bewegt man sich immer weiter entlang dieses Gradienten, bis man da
+   ist.
+
 VERSATZSCHÄTZUNG
 
 * wie bekommt man aus einer Stereoaufnahme (Referenzbild + aktuelles Bild) die
   Posedifferenz?
-* [Erläuterung der Grafik]
+* [GRAFIK ERLÄUTERN]
 * Es gibt eine Bezihung zwischen Bildkoordinaten in Frame 1 und Frame 2:
    + Kameraframes sind durch (R,T) gegeneinander transformiert
    + Bilder der Bildpunkte sind Strahlen, ergo nur bis auf Skalierung bestimmt
@@ -20,7 +75,8 @@ VERSATZSCHÄTZUNG
   + Es geht auch mit 5 Punkten, da E eigentlich nur 5 DOF (3 für R, 3 für T, -1
   für Skalierung)
   + Es gibt 4 Lösungen für (R,T), jedoch macht nur eine Sinn, welche die Punkte
-  vor beiden Kameras platziert, wenn man ihre 3D-Triangulation berechnet.
+  vor beiden Kameras platziert, wenn man ihre 3D-Koordinaten berechnet (nachdem
+  man E hat, hat man R und T, sowie K und kann sie dann berechnen).
 
 KORRESPONDENZFINDUNG
 
