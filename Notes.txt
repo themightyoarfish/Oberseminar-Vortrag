@@ -145,4 +145,31 @@ LÖSUNG FÜR PROBLEM 2
   Korrespondenzen eine Punktwolke (3D-Koordinaten) zu rekonstruieren
 * Dann berechnet man die mittlere Distanz zwischen den Punkten und dem first
   frame und benutzt dies als Skalierung für T
-* 
+* Mit dem jeweils aktuellen Frame und dem first frame macht man das selbe und
+  skaliert das Einheits-T wieder mit der Distanz, so erreicht man eine
+  Vergleichbarkeit der Vektoren über Iterationen hinweg, denn alle
+  Rekonstruktionen sind gewissermaßen über den first frame verlinkt
+ 
+ABLAUF
+
+* Nach Beseitigung der Probleme sieht es dann in etwa so aus [GRAFIK ERLÄUTERN]
+
+DEMO
+
+* Nun noch kurz eine Demo der bisher vorhandenen Funktionalität
+* blub blub blub
+
+STAND
+
+* Es gibt schon
+   + ein user interface (ist alles recht übersichtlich)
+   + eine erste Hilfestellung durch das Kantenoverlay
+   + eine experimentelle Implementierung der Versatzschätzung für 2 Bilder, ist
+   aber noch nicht integriert
+   + Ansatz zum Upload auf einen mockup-server von Tilo Wiedera
+   + Wie gesehen, einige theoretische Ansätze zu Fertigstellung
+* Man kann noch vieles machen
+   + Man sollte Ergebnisse anzeigen und Metadaten eingeben können
+   + Die Assistenz ist obv noch nicht implementiert
+   + Fotos durch post-processing besser zur Deckung bringen
+   + Misc
