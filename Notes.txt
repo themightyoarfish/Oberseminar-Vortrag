@@ -86,7 +86,7 @@ KORRESPONDENZFINDUNG
 * In unserem Ansatz versuchen wir es mit automatischer Feature-Erkennung, was
   weniger drastische Veränderungen vorraussetzt und die Anwendbarkeit
   einschränkt. Idealerweise wird die Korrespondenzfindung später so erweitert,
-  dass die App mit historischen Bildern klarkommt. (Darüber darf Ann-Katrin sich
+  dass die App mit historischen Bildern klarkommt. (Darüber dürfen andere Leute sich
   dann den Kopf zerbrechen)
 * Detektoren gibt es viele, z.B. SURF oder SIFT, die viele Invarianzen haben und
   als verlässlich gelten. Vor allem SIFT ist relativ langsam, SURF ist deutlich
@@ -101,8 +101,48 @@ KORRESPONDENZFINDUNG
   gefunden hat und dabei Performanz gegen Featurezahl und -salienz abwägen
 * Es ist aufgrund sehr unterschiedlicher Parametertypen schwer, die Detektoren
   zu verlgeichen, AKAZE scheint zumindest etwas schneller zu sein
+* Wir benutzen also AKAZE, um auf den Bildern Korrespondenzen zu schätzen,
+  eventuell kann man noch einen Ratio-test machen (tausche Laufzeit gegen Güte)
 * Bisher hängen die Ergebnisse noch stark von der Art des Detektors und den
   Parametern ab
 
 Nun haben wir eigentlich alles: Korrespondenzen und Methode zur
 Versatzberechnung
+
+PROBLEME DER VERSATZSCHÄTZUNG
+
+* Es so zu machen, wie zuvor geschildert, bringt ein großes Problem mit sich,
+  und zwar wird die Versatzschätzung immer ungenauer, je näher die beiden
+  Kameras beieinander sind.
+* Je näher man dem Ziel kommt, desto weniger weiß man weiter, was natürlich das
+  Gegenteil von dem ist, was man will
+* Das 2. Problem hat nichts mit dem Naiven Ansatz zu tun, sondern ist ein
+  Grundsätzliches, das durch die mathematischen Eigenschaften der projektiven
+  Geometrue bedingt ist
+  + Man kennt die Skalierung des resultierenden T-Vekors nicht.
+  + das wäre normalerweise nicht so schlimm, solange man sich sicher sein
+  könnte, dass die Vektoren über die Iterationen hinweg verlgeichbar sind, aber
+  das ist so nicht.
+  + Wenn ich mit dem aktuellen Frame herauskriege, das Ziel ist links von mir,
+  und mit dem nächsten, dann wieder links, dann weiß ich nicht, ob ich näher
+  gekommen bin oder mich wieder entfernt habe
+
+LÖSUNG FÜR PROBLEM 1
+
+* Man lässt den Nutzer 2 Bilder der Szene aufnehmen, wobei das eine (aka first
+  frame) einigermaßen weit entfernt vom Original ist, die genaue Entfernung
+  spielt keine Rolle und das andere die beste Annäherung nach Augenmaß ist
+* Man matched das Referenzbild mit dem first frame und speichert sich die
+  Translation (mit bestimmter Skalierung, folgt gleich)
+* Anstatt das aktuelle mit dem Referenzbild zu vergleichen, um eine
+  Nulldifferenz zu erreichen, verlgeichen wir mit dem first frame und versuchen,
+  dessen Differenz zum Referenzbild zu erreichen
+* Da die 0 nicht das Ziel ist, haben wir das Problem mit der Instabilität nicht.
+
+LÖSUNG FÜR PROBLEM 2
+
+* Die selben beiden Bilder wie zuvor werden nun benutzt, um aus den
+  Korrespondenzen eine Punktwolke (3D-Koordinaten) zu rekonstruieren
+* Dann berechnet man die mittlere Distanz zwischen den Punkten und dem first
+  frame und benutzt dies als Skalierung für T
+* 
