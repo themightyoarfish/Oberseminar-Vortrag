@@ -17,6 +17,7 @@ EINLEITUNG
    // Scherungsparameter (üblicherweise vernachläsigt)
    // + Wenn wir annehmen, dass das Weltkoordinatensystem das des Referenzbildes
    // ist, sind wir auf der Suche nach R & T, dann könnten wir uns da hin bewegen
+* Wie findet man die Pose wieder?
    + Refotografie bisher: Manuell, Timera, rePhoto, Photoshop
    + Frage: Kann man sich nicht durch Computer dabei helfen lassen?
    + Geht, Menschen vom MIT & Adobe haben eine Anwendung für Laptop +
@@ -38,6 +39,8 @@ ZIEL DER ARBEIT
    + Es gibt auch keine Schätzung der originalen Kalibriermatrix, wir nehmen
    vereinfachend an, dass für das Referenzbild die selbe Kamera benutzt wurde
    + Zunächst wird versucht, die richtige Translation zu erreichen
+   + Anzeigen und optimieren der Refotografie, eventuell hochladen
+
    + Alles weitere kann dan hoffentlich durch Weiterentwicklung in der
    Arbeitsgruppe nachgerüstet werden.
 
@@ -78,6 +81,53 @@ VERSATZSCHÄTZUNG
   vor beiden Kameras platziert, wenn man ihre 3D-Koordinaten berechnet (nachdem
   man E hat, hat man R und T, sowie K und kann sie dann berechnen).
 
+PROBLEME DER VERSATZSCHÄTZUNG
+
+* Es so zu machen, wie zuvor geschildert, bringt ein großes Problem mit sich,
+  und zwar wird die Versatzschätzung immer ungenauer, je näher die beiden
+  Kameras beieinander sind.
+* Je näher man dem Ziel kommt, desto weniger weiß man weiter, was natürlich das
+  Gegenteil von dem ist, was man will
+* Das 2. Problem hat nichts mit dem Naiven Ansatz zu tun, sondern ist ein
+  Grundsätzliches, das durch die mathematischen Eigenschaften der projektiven
+  Geometrue bedingt ist
+  + Man kennt die Skalierung des resultierenden T-Vektors nicht.
+  + das wäre normalerweise nicht so schlimm, solange man sich sicher sein
+  könnte, dass die Vektoren über die Iterationen hinweg verlgeichbar sind, aber
+  das ist so nicht.
+  + Wenn ich mit dem aktuellen Frame herauskriege, das Ziel ist links von mir,
+  und mit dem nächsten, dann wieder links, dann weiß ich nicht, ob ich näher
+  gekommen bin oder mich wieder entfernt habe
+
+LÖSUNG FÜR PROBLEM 1
+
+* Man lässt den Nutzer 2 Bilder der Szene aufnehmen, wobei das eine (aka first
+  frame) einigermaßen weit entfernt vom Original ist, die genaue Entfernung
+  spielt keine Rolle und das andere die beste Annäherung nach Augenmaß ist
+* Man matched das Referenzbild mit dem first frame und speichert sich die
+  Translation (mit bestimmter Skalierung, folgt gleich)
+* Anstatt das aktuelle mit dem Referenzbild zu vergleichen, um eine
+  Nulldifferenz zu erreichen, verlgeichen wir mit dem first frame und versuchen,
+  dessen Differenz zum Referenzbild zu erreichen
+* Da die 0 nicht das Ziel ist, haben wir das Problem mit der Instabilität nicht.
+
+LÖSUNG FÜR PROBLEM 2
+
+* Die selben beiden Bilder wie zuvor werden nun benutzt, um aus den
+  Korrespondenzen eine Punktwolke (3D-Koordinaten) zu rekonstruieren
+* Dann berechnet man die mittlere Distanz zwischen den Punkten und dem first
+  frame und benutzt dies als Skalierung für T
+* Mit dem jeweils aktuellen Frame und dem first frame macht man das selbe und
+  skaliert das Einheits-T wieder mit der Distanz, so erreicht man eine
+  Vergleichbarkeit der Vektoren über Iterationen hinweg, denn alle
+  Rekonstruktionen sind gewissermaßen über den first frame verlinkt
+* Sinn macht es deshalb, weil die 3D-Koordinaten davon abhängen, wo Punkte aus
+  dem first frame im aktuellen Bild wieder auftauchen. Wir machen die
+  Triangulation ja mit einem Einheits-T; wenn sich nun aber die Korrespondenzen
+  zwischen first frame und aktuellem Bild sehr viel bewegt haben, ist dies nur
+  mit einer größenen Skalierung realisierbar, was sich in den triangulierten
+  Koordinaten wiederspiegelt.
+
 KORRESPONDENZFINDUNG
 
 * Die Leute vom MIT lassen den User manuell labeln (möglicherweise unersetzlich
@@ -109,46 +159,6 @@ KORRESPONDENZFINDUNG
 Nun haben wir eigentlich alles: Korrespondenzen und Methode zur
 Versatzberechnung
 
-PROBLEME DER VERSATZSCHÄTZUNG
-
-* Es so zu machen, wie zuvor geschildert, bringt ein großes Problem mit sich,
-  und zwar wird die Versatzschätzung immer ungenauer, je näher die beiden
-  Kameras beieinander sind.
-* Je näher man dem Ziel kommt, desto weniger weiß man weiter, was natürlich das
-  Gegenteil von dem ist, was man will
-* Das 2. Problem hat nichts mit dem Naiven Ansatz zu tun, sondern ist ein
-  Grundsätzliches, das durch die mathematischen Eigenschaften der projektiven
-  Geometrue bedingt ist
-  + Man kennt die Skalierung des resultierenden T-Vekors nicht.
-  + das wäre normalerweise nicht so schlimm, solange man sich sicher sein
-  könnte, dass die Vektoren über die Iterationen hinweg verlgeichbar sind, aber
-  das ist so nicht.
-  + Wenn ich mit dem aktuellen Frame herauskriege, das Ziel ist links von mir,
-  und mit dem nächsten, dann wieder links, dann weiß ich nicht, ob ich näher
-  gekommen bin oder mich wieder entfernt habe
-
-LÖSUNG FÜR PROBLEM 1
-
-* Man lässt den Nutzer 2 Bilder der Szene aufnehmen, wobei das eine (aka first
-  frame) einigermaßen weit entfernt vom Original ist, die genaue Entfernung
-  spielt keine Rolle und das andere die beste Annäherung nach Augenmaß ist
-* Man matched das Referenzbild mit dem first frame und speichert sich die
-  Translation (mit bestimmter Skalierung, folgt gleich)
-* Anstatt das aktuelle mit dem Referenzbild zu vergleichen, um eine
-  Nulldifferenz zu erreichen, verlgeichen wir mit dem first frame und versuchen,
-  dessen Differenz zum Referenzbild zu erreichen
-* Da die 0 nicht das Ziel ist, haben wir das Problem mit der Instabilität nicht.
-
-LÖSUNG FÜR PROBLEM 2
-
-* Die selben beiden Bilder wie zuvor werden nun benutzt, um aus den
-  Korrespondenzen eine Punktwolke (3D-Koordinaten) zu rekonstruieren
-* Dann berechnet man die mittlere Distanz zwischen den Punkten und dem first
-  frame und benutzt dies als Skalierung für T
-* Mit dem jeweils aktuellen Frame und dem first frame macht man das selbe und
-  skaliert das Einheits-T wieder mit der Distanz, so erreicht man eine
-  Vergleichbarkeit der Vektoren über Iterationen hinweg, denn alle
-  Rekonstruktionen sind gewissermaßen über den first frame verlinkt
  
 ABLAUF
 
