@@ -58,12 +58,13 @@ VEREINFACHTER ABLAUF
 
 VERSATZSCHÄTZUNG
 
-* wie bekommt man aus einer Stereoaufnahme (Referenzbild + aktuelles Bild) die
+* wie bekommt man aus zwei Bildern des selben Objektes (Referenzbild + aktuelles Bild) die
   Posedifferenz?
 * [GRAFIK ERLÄUTERN]
+* Punkt im einen Koordinatensystem wird in anderes Koordinatensystem
+  transformiert mittels euklidischer Transformation (R,T)
 * Es gibt eine Beziehung zwischen Bildkoordinaten in Frame 1 und Frame 2:
-   + Kameraframes sind durch (R,T) gegeneinander transformiert
-   + Bilder der Bildpunkte sind Strahlen, ergo nur bis auf Skalierung bestimmt
+   + Urbilder der Bildpunkte sind Strahlen, ergo nur bis auf Skalierung bestimmt
    + T-dach ist Matrixschreibweise für das Kreuzprodukt mit T
    + So gelangt man zur Essentiellen Matrix, die einen Punkt auf seine
    Epipolarlinie im anderen Frame abbildet
