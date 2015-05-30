@@ -61,13 +61,13 @@ VERSATZSCHÄTZUNG
 * wie bekommt man aus zwei Bildern des selben Objektes (Referenzbild + aktuelles Bild) die
   Posedifferenz?
 * [GRAFIK ERLÄUTERN]
-* Punkt im einen Koordinatensystem wird in anderes Koordinatensystem
-  transformiert mittels euklidischer Transformation (R,T)
-* Es gibt eine Beziehung zwischen Bildkoordinaten in Frame 1 und Frame 2:
-   + Urbilder der Bildpunkte sind Strahlen, ergo nur bis auf Skalierung bestimmt
-   + T-dach ist Matrixschreibweise für das Kreuzprodukt mit T
-   + So gelangt man zur Essentiellen Matrix, die einen Punkt auf seine
-   Epipolarlinie im anderen Frame abbildet
+   + Punkt im einen Koordinatensystem wird in anderes Koordinatensystem
+     transformiert mittels euklidischer Transformation (R,T)
+   + Es gibt eine Beziehung zwischen Bildkoordinaten in Frame 1 und Frame 2:
+      + Urbilder der Bildpunkte sind Strahlen, ergo nur bis auf Skalierung bestimmt
+      + T-dach ist Matrixschreibweise für das Kreuzprodukt mit T
+      + So gelangt man zur Essentiellen Matrix, die einen Punkt auf seine
+      Epipolarlinie im anderen Frame abbildet
 * Mit Hilfe der Epipolargleichung kann man nun mit Punktkorrespondenzen
   Gleichungen aufstellen, und das resultierenden LGS lösen/optimieren
   + 8-Punkt-Algorithmus: E hat max. 8 DOF wegen Skalierung, also braucht man
