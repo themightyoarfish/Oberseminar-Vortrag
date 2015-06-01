@@ -4,14 +4,14 @@ EINLEITUNG
 * Blabla
 * Refotografie - wasn das?
    + Bezeichnet den Prozess der Rekonstruktion eines Aufnahmestandortes eines
-   Bildes
+   Bildes (Posistion, Orientierung, Brennweite, Hauptpunkt)
    + Ziel ist es, die Pose und Kameraparameter möglichst genau zu
    rekonstruieren, um erneut ein Bild der selben Szene zu machen
    + Man kann damit gut historischen Wandel dokumentieren, aber auch potenziell
    Baufortschritte oder Jahreszeiten
    + Siehe Beispiele (erregen gelegentlich Medieninteresse aufgrund der starken
    Wirkung)
-* Was genau müsste neben der Pose alles rekonstruiert werden?
+// * Was genau müsste neben der Pose alles rekonstruiert werden?
    // + Abbildung von Welt- in Pixelkoordinaten sieht so aus [GRAFIK ERLÄUTERN]
    // + Die Kameramatrix enthält die Brennweite, den Hauptpunkt und einen
    // Scherungsparameter (üblicherweise vernachlässigt)
@@ -154,8 +154,8 @@ KORRESPONDENZFINDUNG
   zu vergleichen, AKAZE scheint zumindest etwas schneller zu sein
 * Wir benutzen also AKAZE, um auf den Bildern Korrespondenzen zu schätzen,
   eventuell kann man noch einen Ratio-test machen (tausche Laufzeit gegen Güte)
-* Bisher hängen die Ergebnisse noch stark von der Art des Detektors und den
-  Parametern ab
+//* Bisher hängen die Ergebnisse noch stark von der Art des Detektors und den
+// Parametern ab
 
 Nun haben wir eigentlich alles: Korrespondenzen und Methode zur
 Versatzberechnung
