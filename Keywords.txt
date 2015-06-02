@@ -175,16 +175,12 @@ LÖSUNG FÜR PROBLEM 2
   Skalierung für T
 
 * Mit jeweils aktuellem Frame und first frame das selbe tun,
-  Einheits-T skalieren -> Vergleichbarkeit der Vektoren über Iterationen hinweg, alle 
-  Rekonstruktionen über first frame verlinkt
+  Einheits-T skalieren -> Vergleichbarkeit der Vektoren über Iterationen hinweg
 
-* Sinn macht es deshalb, weil die 3D-Koordinaten davon abhängen, wo Punkte aus 
-  dem first frame im aktuellen Bild wieder auftauchen. Wir machen die 
-  Triangulation ja mit einem Einheits-T; wenn sich nun aber die Korrespondenzen 
-  zwischen first frame und aktuellem Bild sehr viel bewegt haben, ist dies nur 
-  mit einer größeren Skalierung realisierbar, was sich in den triangulierten 
-  Koordinaten widerspiegelt.
+* Warum sinnvoll? Skalierung der Welt (also Distanz zwischen Kamera und Welt)
+  verhält sich antiproportional zur Distanz der beiden Kameras
 
+* -> erlaubt, kleinere von größerer Entfernung zu unterscheiden
 
 
 KORRESPONDENZFINDUNG

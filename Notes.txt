@@ -119,15 +119,11 @@ LÖSUNG FÜR PROBLEM 2
 * Dann berechnet man die mittlere Distanz zwischen den Punkten und dem first
   frame und benutzt dies als Skalierung für T
 * Mit dem jeweils aktuellen Frame und dem first frame macht man das selbe und
-  skaliert das Einheits-T wieder mit der Distanz, so erreicht man eine
-  Vergleichbarkeit der Vektoren über Iterationen hinweg, denn alle
-  Rekonstruktionen sind gewissermaßen über den first frame verlinkt
-* Sinn macht es deshalb, weil die 3D-Koordinaten davon abhängen, wo Punkte aus
-  dem first frame im aktuellen Bild wieder auftauchen. Wir machen die
-  Triangulation ja mit einem Einheits-T; wenn sich nun aber die Korrespondenzen
-  zwischen first frame und aktuellem Bild sehr viel bewegt haben, ist dies nur
-  mit einer größeren Skalierung realisierbar, was sich in den triangulierten
-  Koordinaten widerspiegelt.
+  skaliert das Einheits-T wieder mit der inversen Distanz, so erreicht man eine
+  Vergleichbarkeit der Vektoren über Iterationen hinweg, und kann größere von
+  kleineren Entfernungen unterscheiden
+* Die Entfernung der Weltpuntke von der Kamera ist antiproportional zur Distanz
+  zwischen den Kameras, die die Szene aufnehmen (bei Bedarf Bild)
 
 KORRESPONDENZFINDUNG
 
